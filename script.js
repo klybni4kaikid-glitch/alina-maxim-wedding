@@ -142,33 +142,45 @@ document.querySelectorAll(".cats img").forEach(cat=>{
 
 // ---------- Форма ----------
 
-const form=document.getElementById("guestForm");
+form.addEventListener("submit", async (e) => {
 
-if(form){
+    e.preventDefault();
 
-form.addEventListener("submit",(e)=>{
+    const data = {
 
-e.preventDefault();
+        fullname: form.fullname.value,
 
-const name=form.querySelector("input").value;
+        attendance: form.attendance.value,
 
-const attend=form.querySelector("select").value;
+        food: form.food.value,
 
-const food=form.querySelector("textarea").value;
+        comment: form.comment.value
 
-console.log({
+    };
 
-name,
+    const response = await fetch("api/rsvp.php",{
 
-attend,
+        method:"POST",
 
-food
+        headers:{
+            "Content-Type":"application/json"
+        },
 
-});
+        body:JSON.stringify(data)
 
-alert("Спасибо ❤️ Мы получили вашу анкету!");
+    });
 
-form.reset();
+    if(response.ok){
+
+        alert("Спасибо ❤️ Мы получили Ваш ответ!");
+
+        form.reset();
+
+    }else{
+
+        alert("Ошибка отправки.");
+
+    }
 
 });
 
